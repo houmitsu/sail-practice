@@ -12,7 +12,8 @@ class Test extends Model
     protected $table = 'tests';
 
     protected $fillable = [
-        'img_path',
         'user_id',
+        'title',
+        'img_path',
     ];
 }

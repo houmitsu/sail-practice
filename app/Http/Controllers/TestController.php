@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Test;
+use App\Models\User;
 
 class TestController extends Controller
 {
@@ -16,11 +17,14 @@ class TestController extends Controller
 
     public function create(Request $request)
     {
-        return view('test.create');
+        $user = User::where('id', \Auth::user()->id)->get();
+        return view('test.create', compact('user'));
     }
 
     public function store(Request $request)
     {
+        $id = $request->input('user_id');
+        $title = $request->input('title');
         // 画像フォームでリクエストした画像情報を取得
         $img = $request->file('img_path');
         // storage > public > img配下に画像が保存される
@@ -29,6 +33,8 @@ class TestController extends Controller
         if ($path) {
             // DBに登録する処理
             Test::create([
+                'user_id' => $id,
+                'title' => $title,
                 'img_path' => $path,
             ]);
         }

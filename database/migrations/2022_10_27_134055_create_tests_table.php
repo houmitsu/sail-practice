@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id')->nullable();
+            $table->string('img_path')->nullable();
             $table->timestamps();
         });
     }

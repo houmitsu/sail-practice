@@ -17,6 +17,14 @@
                     {{ __('You are logged in!') }}
                 </div>
             </div>
+
+            <div>
+                <a href="{{ route('test.index') }}">index</a>
+            </div>
+            <div>
+                <a href="{{ route('test.create') }}">create</a>
+            </div>
+            
         </div>
     </div>
 </div>

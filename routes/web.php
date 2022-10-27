@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/', [TestController::class, 'index'])->name('test.index');
+Route::get('/create', [TestController::class, 'create'])->name('test.create');
+Route::post('/store', [TestController::class, 'store'])->name('test.store');

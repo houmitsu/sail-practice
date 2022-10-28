@@ -8,11 +8,29 @@ use App\Models\User;
 
 class TestController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // itemsテーブルのデータを全て取得
-        $items = Test::get();
-        return view('test.index', compact('items'));
+        $items = Test::paginate(20);
+        $search = $request->input('search');
+        $query = Test::query();
+
+        if ($search) {
+            // 全角スペースを半角に変換
+            $convertSpace = mb_convert_kana($search, 's');
+            // 単語を半角スペースで区切り、配列にする（例："山田 翔" → ["山田", "翔"]）
+            $searchWord = preg_split('/[\s,]+/', $convertSpace, -1, PREG_SPLIT_NO_EMPTY);
+            // 単語をループで回し、ユーザーネームと部分一致するものがあれば、$queryとして保持される
+            foreach($searchWord as $word) {
+                $query->where('title', 'like', '%'.$word.'%');
+            }
+            $items = $query->paginate(20);
+        }
+
+        return view('test.index')
+            ->with([
+                'items' => $items,
+                'search' => $search,
+            ]);
     }
 
     public function create(Request $request)

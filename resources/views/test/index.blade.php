@@ -21,7 +21,7 @@
 </div>
 @foreach ($items as $item)
     <div>
-        <div>{{$item->title}}</div>
+        <div><a href="/user/{{ $item->user_id }}" class="alert-link">{{$item->title}}</a></div>
         <img src="{{ Storage::url($item->img_path) }}" width="25%">
     </div>
 @endforeach

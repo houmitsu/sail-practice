@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Test;
 use App\Models\User;
+use App\Models\Like;
+use Auth;
 
 class TestController extends Controller
 {
+    // only()の引数内のメソッドはログイン時のみ有効
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified'])->only(['like', 'unlike']);
+    }
+
     public function index(Request $request)
     {
         $items = Test::paginate(20);
@@ -58,5 +66,39 @@ class TestController extends Controller
         }
         // リダイレクト
         return redirect()->route('test.index');
+    }
+
+    /**
+    * 引数のIDに紐づくリプライにLIKEする
+    *
+    * @param $id リプライID
+    * @return \Illuminate\Http\RedirectResponse
+    */
+    public function like($id)
+    {
+        Like::create([
+        'test_id' => $id,
+        'user_id' => Auth::id(),
+        ]);
+
+        session()->flash('success', 'you liked.');
+
+        return redirect()->back();
+    }
+
+    /**
+     * 引数のIDに紐づくリプライにUNLIKEする
+     *
+     * @param $id リプライID
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unlike($id)
+    {
+        $like = Like::where('test_id', $id)->where('user_id', Auth::id())->first();
+        $like->delete();
+
+        session()->flash('success', 'you unliked.');
+
+        return redirect()->back();
     }
 }

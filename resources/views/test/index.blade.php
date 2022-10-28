@@ -23,6 +23,13 @@
     <div>
         <div><a href="/user/{{ $item->user_id }}" class="alert-link">{{$item->title}}</a></div>
         <img src="{{ Storage::url($item->img_path) }}" width="25%">
+        <div>
+            @if($item->is_liked_by_auth_user())
+              <a href="/unlike/{{ $item->id }}" class="btn btn-success btn-sm">いいね<span class="badge">{{ $item->likes->count() }}</span></a>
+            @else
+              <a href="/like/{{ $item->id }}" class="btn btn-secondary btn-sm">いいね<span class="badge">{{ $item->likes->count() }}</span></a>
+            @endif
+        </div>
     </div>
 @endforeach
 

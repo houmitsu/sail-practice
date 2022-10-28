@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,5 @@ Route::get('/user/{user}', [UserController::class, 'show'])->name('test.show');
 Route::get('/', [TestController::class, 'index'])->name('test.index');
 Route::get('/create', [TestController::class, 'create'])->name('test.create');
 Route::post('/store', [TestController::class, 'store'])->name('test.store');
+Route::get('/like/{id}', [TestController::class, 'like'])->name('test.like');
+Route::get('/unlike/{id}', [TestController::class, 'unlike'])->name('test.unlike');

@@ -7,7 +7,7 @@
 <input type="hidden" name="user_id" value="{{$user[0]['id']}}">
 <input type="text" name="title" placeholder="Input title." maxlength="200">
 <input type="file" name="img_path">
-<input type="submit" value="アップロード">
+<input type="submit" value="upload">
 </form>
 
 @endsection
